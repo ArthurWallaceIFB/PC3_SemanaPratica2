@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,39 +14,40 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.prog3.semanaPratica2.domain.Curso;
-import br.com.prog3.semanaPratica2.service.CursoService;
+import br.com.prog3.semanaPratica2.domain.Cliente;
+import br.com.prog3.semanaPratica2.service.ClienteService;
 
 @RestController
-@RequestMapping("/api/v1/cursos")
-public class CursoResource {
+@RequestMapping("/api/v1/clientes")
+public class ClienteResource {
 	@Autowired
-	private CursoService cursoService;
+	private ClienteService clienteService;
 
 	@PostMapping
-	public Curso save(@RequestBody Curso curso) {
-		return cursoService.save(curso);
+	public Cliente save(@RequestBody Cliente cliente) {
+		return clienteService.save(cliente);
 	}
 
 	@GetMapping
-	public List<Curso> findAll() {
-		return cursoService.findAll();
+	public List<Cliente> findAll() {
+		return clienteService.findAll();
 	}
 
 	@GetMapping(path = { "/{id}" })
-	public Optional<Curso> findById(@PathVariable("id") Long id) {
-		return cursoService.findById(id);
+	public Optional<Cliente> findById(@PathVariable("id") Long id) {
+		return clienteService.findById(id);
 	}
 
 	@PutMapping(value = "/{id}")
-	public Curso update(@PathVariable("id") Long id, @RequestBody Curso curso) {
-		Optional<Curso> optional = cursoService.findById(id);
+	public Cliente update(@PathVariable("id") Long id, @RequestBody Cliente cliente) {
+		Optional<Cliente> optional = clienteService.findById(id);
 		if (optional.isPresent()) {
-			Curso c = optional.get();
-			c.setCargaHoraria(curso.getCargaHoraria());
-			c.setNome(curso.getNome());
-			c.setModalidade(curso.getModalidade());
-			cursoService.update(c);
+			Cliente c = optional.get();
+			c.setCpf(cliente.getCpf());
+			c.setNome(cliente.getNome());
+			c.setDataNascimento(cliente.getDataNascimento());
+			c.setCarros(cliente.getCarros());
+			clienteService.update(c);
 			return c;
 		} else {
 			throw new RuntimeException("Não foi possível alterar registro");
@@ -54,6 +56,6 @@ public class CursoResource {
 
 	@DeleteMapping(path = { "/{id}" })
 	public void delete(@PathVariable("id") Long id) {
-		cursoService.deleteById(id);
+		clienteService.deleteById(id);
 	}
 }
